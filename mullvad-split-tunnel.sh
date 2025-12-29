@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-EXCLUDED_APPS=(
-	vesktop
-	youtube-music
-	firefox
-)
+EXCLUDED_APPS="./excluded-apps"
+echo "Using excluded apps list from: $EXCLUDED_APPS"
+
+#read excluded apps into array
+mapfile -t EXCLUDED_APPS < "$EXCLUDED_APPS"
 
 STATE_FILE="$HOME/.cache/mullvad-split-pids"
 echo "Started using state file: $STATE_FILE"

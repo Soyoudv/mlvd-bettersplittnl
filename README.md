@@ -4,7 +4,7 @@ a script that replace the bad split tunneling function on linux, using Mullvad C
 
 did this because i dont wanna use the other methods that are very shitty
 
-for the moment you can basically add a line to the EXCLUDED_APPS variable on the script and run it, it refresh itselfs until you stop it
+add the apps to the excluded-apps file (1 app, 1 line)
 
 **if you want to clean the split-tunneling, do:**
 ```bash
