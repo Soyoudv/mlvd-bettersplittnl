@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-#reset log
-: > ./out.log
-
 #load excluded apps from config
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/mullvad-split-tunnel"
 EXCLUDED_APPS_FILE="$CONFIG_DIR/excluded-apps"
@@ -39,7 +36,7 @@ fi
 cleanup(){
   echo ""
   echo "Cleaning up split tunnel..."
-  mullvad split-tunnel clear >> ./out.log
+  mullvad split-tunnel clear > /dev/null 2>&1
 }
 trap cleanup EXIT
 
