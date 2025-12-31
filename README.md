@@ -1,6 +1,9 @@
-# mlvd-bettersplittnl
+# Mullvad Split Tunneling
+
+*A better split tunneling for Mullvad VPN on Linux, using Mullvad CLI and Bash*
+<BR>
+
 **⚠️ you will need Mullvad installed ⚠️**<BR><BR>
-a script that replace the bad split tunneling function on linux, using Mullvad CLI and bash
 
 did this because i dont wanna use the other methods that are very shitty
 
@@ -14,3 +17,6 @@ add the apps to the excluded-apps file (1 app, 1 line)
 
 **-s**
 *mode silencieux, pas de logs*
+
+**-c**
+*clean le split tunneling de mullvad*
