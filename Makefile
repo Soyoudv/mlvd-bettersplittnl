@@ -22,4 +22,12 @@ install:
 
 uninstall:
 	@rm -f $(TARGET)
+	@CONFIG_DIR=$${XDG_CONFIG_HOME:-$$HOME/.config}/mullvad-split-tunnel; \
+	  CONFIG_FILE=$$CONFIG_DIR/excluded-apps; \
+	  if [ -f $$CONFIG_FILE ]; then \
+	    rm -f $$CONFIG_FILE; \
+	    echo "Removed $$CONFIG_FILE"; \
+	  else \
+	    echo "Skipped removing config, $$CONFIG_FILE does not exist"; \
+	  fi
 	@echo "Removed $(TARGET)"
