@@ -3,11 +3,18 @@
 #reset log
 : > ./out.log
 
-EXCLUDED_APPS="./excluded-apps"
-echo "Using excluded apps list from: $EXCLUDED_APPS"
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/mullvad-split-tunnel"
+EXCLUDED_APPS_FILE="$CONFIG_DIR/excluded-apps"
+
+if [ ! -f "$EXCLUDED_APPS_FILE" ]; then
+  echo "Missing excluded apps file: $EXCLUDED_APPS_FILE" >&2
+  exit 1
+fi
+
+echo "Using excluded apps list from: $EXCLUDED_APPS_FILE"
 
 #read excluded apps into array
-mapfile -t EXCLUDED_APPS < "$EXCLUDED_APPS"
+mapfile -t EXCLUDED_APPS < "$EXCLUDED_APPS_FILE"
 
 STATE_FILE="$HOME/.cache/mullvad-split-pids"
 
@@ -29,8 +36,8 @@ while true; do
 
     pgrep -f "$app" | while read -r pid; do
       if ! grep -q "^$pid$" "$STATE_FILE"; then
-        echo -e "$app [$pid]" >> ./out.log
-        if mullvad split-tunnel add "$pid" >> ./out.log; then
+        echo -e "$app [$pid]"
+        if mullvad split-tunnel add "$pid"; then
           echo "$pid" >> "$STATE_FILE"
         else 
           echo "Failed to add $app [$pid] to split tunnel"
