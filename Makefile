@@ -10,7 +10,7 @@ install:
 	@mkdir -p $(INSTALL_DIR)
 	install -m 755 $(SCRIPT) $(TARGET)
 	@CONFIG_DIR=$${XDG_CONFIG_HOME:-$$HOME/.config}/mullvad-split-tunnel; \
-	  CONFIG_FILE=$$CONFIG_DIR/excluded-apps; \
+	  CONFIG_FILE=$$CONFIG_DIR/excluded-apps.txt; \
 	  mkdir -p $$CONFIG_DIR; \
 	  if [ ! -f $$CONFIG_FILE ]; then \
 	    : > $$CONFIG_FILE; \
@@ -23,9 +23,9 @@ install:
 uninstall:
 	@rm -f $(TARGET)
 	@CONFIG_DIR=$${XDG_CONFIG_HOME:-$$HOME/.config}/mullvad-split-tunnel; \
-	  CONFIG_FILE=$$CONFIG_DIR/excluded-apps; \
+	  CONFIG_FILE=$$CONFIG_DIR/excluded-apps.txt; \
 	  if [ -f $$CONFIG_FILE ]; then \
-	    rm -f $$CONFIG_FILE; \
+		rm -rf $$CONFIG_DIR/; \
 	    echo "Removed $$CONFIG_FILE"; \
 	  else \
 	    echo "Skipped removing config, $$CONFIG_FILE does not exist"; \

@@ -2,7 +2,7 @@
 
 #load excluded apps from config
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/mullvad-split-tunnel"
-EXCLUDED_APPS_FILE="$CONFIG_DIR/excluded-apps"
+EXCLUDED_APPS_FILE="$CONFIG_DIR/excluded-apps.txt"
 if [ ! -f "$EXCLUDED_APPS_FILE" ]; then
   echo "Missing excluded apps file: $EXCLUDED_APPS_FILE" >&2
   exit 1
