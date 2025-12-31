@@ -14,5 +14,5 @@ mullvad split-tunnel clear
 
 OPTIONS:
 
-**-a**
-ouvre le fichier des applications exclues
+**-e**
+*ouvre le fichier des applications exclues*
