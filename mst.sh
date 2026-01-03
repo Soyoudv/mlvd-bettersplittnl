@@ -75,16 +75,11 @@ fi
 
 # ---------------------------------- ARGUMENTS ---------------------------------- #
 
-while getopts ": a: r: l e s c w" opt; do
+while getopts ": s a: r: l e c" opt; do
   case ${opt} in
     s)
       echo -e "\e[91mExécution en mode silencieux...\e[0m"
       exec >/dev/null 2>&1
-    ;;
-    e)
-      echo -e "\e[91mOuverture du fichier de configuration pour modification...\e[0m"
-      xdg-open "$EXCLUDED_APPS_FILE"
-      exit 1
     ;;
     a)
       add_line "$OPTARG"
@@ -97,6 +92,11 @@ while getopts ": a: r: l e s c w" opt; do
     l)
       echo -e "\e[96mListe des applications exclues dans le split tunnel:\e[0m"
       echo -e "\e[95m$(cat "$EXCLUDED_APPS_FILE")\e[0m"
+      exit 1
+    ;;
+    e)
+      echo -e "\e[91mOuverture du fichier de configuration pour modification...\e[0m"
+      xdg-open "$EXCLUDED_APPS_FILE"
       exit 1
     ;;
     c)
