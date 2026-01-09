@@ -110,7 +110,7 @@ load_config
 
 # ---------------------------------- ARGUMENTS ---------------------------------- #
 
-while getopts ": s a: r: l e c" opt; do
+while getopts ": s a: r: l e" opt; do
   case ${opt} in
     s)
       echo -e "\e[91mExécution en mode silencieux...\e[0m"
@@ -132,11 +132,6 @@ while getopts ": s a: r: l e c" opt; do
     e)
       echo -e "\e[91mOuverture du fichier de configuration pour modification...\e[0m"
       xdg-open "$EXCLUDED_APPS_FILE"
-      exit 1
-    ;;
-    c)
-      echo -e "\e[91mNettoyage des processus dans le split tunnel...\e[0m"
-      mullvad split-tunnel clear > /dev/null 2>&1
       exit 1
     ;;
     ?)

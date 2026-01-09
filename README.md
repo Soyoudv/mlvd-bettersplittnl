@@ -26,6 +26,3 @@ add the apps to the excluded-apps file (1 app, 1 line)
 
 `e`
 *open the excluded apps file*
-
-`c`
-*clean mullvad's split tunneling*
