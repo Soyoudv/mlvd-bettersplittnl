@@ -14,8 +14,6 @@ load_config(){
 }
 
 refresh_excluded_apps(){
-  echo -e "\e[96mUsing excluded apps list from:\e[0m \e[95m$EXCLUDED_APPS_FILE\e[0m"
-
   #read excluded apps into array
   mapfile -t EXCLUDED_APPS < "$EXCLUDED_APPS_FILE"
 
@@ -44,6 +42,8 @@ cleanup_exit(){
 
 blacklist(){
   while true; do
+  refresh_excluded_apps # refresh excluded apps list
+
   for app in "${EXCLUDED_APPS[@]}"; do
     # echo "Checking for app: $app"
 
@@ -159,6 +159,7 @@ mkdir -p "$(dirname "$STATE_FILE")" #ensure state file directory exists
 trap cleanup_exit EXIT # clean up on exit
 
 load_excluded_apps # config already loaded once, just refresh excluded apps
+echo -e "\e[96mUsing excluded apps list from:\e[0m \e[95m$EXCLUDED_APPS_FILE\e[0m"
 
 cleanup # clean up any existing split tunnel pids before starting
 
