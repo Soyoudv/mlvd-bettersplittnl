@@ -3,6 +3,16 @@
 
 # ---------------------------------- FUNCTIONS ---------------------------------- #
 
+load_config(){
+  #load excluded apps from config
+  CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/mst"
+  EXCLUDED_APPS_FILE="$CONFIG_DIR/excluded-apps.txt"
+  if [ ! -f "$EXCLUDED_APPS_FILE" ]; then
+    echo "Missing excluded apps file: $EXCLUDED_APPS_FILE" >&2
+    exit 1
+  fi
+}
+
 cleanup(){
   echo -e "\e[96mCleaning up split tunnel pids...\e[0m"
   mullvad split-tunnel clear > /dev/null 2>&1
@@ -75,14 +85,7 @@ remove_line(){
 
 # ---------------------------------- LOAD CONFIG ---------------------------------- #
 
-#load excluded apps from config
-CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/mst"
-EXCLUDED_APPS_FILE="$CONFIG_DIR/excluded-apps.txt"
-if [ ! -f "$EXCLUDED_APPS_FILE" ]; then
-  echo "Missing excluded apps file: $EXCLUDED_APPS_FILE" >&2
-  exit 1
-fi
-
+load_config
 
 # ---------------------------------- ARGUMENTS ---------------------------------- #
 
