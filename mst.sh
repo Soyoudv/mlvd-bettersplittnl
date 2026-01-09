@@ -109,32 +109,38 @@ remove_line(){
 while getopts ": s a: r: l e" opt; do
   case ${opt} in
     s)
+      # silent mode
       echo -e "\e[91mExécution en mode silencieux...\e[0m"
       exec >/dev/null 2>&1
     ;;
     a)
+      # add line to excluded apps file
       load_config
       add_line "$OPTARG"
       exit 1
     ;;
     r)
+      # remove line to excluded apps file
       load_config
       remove_line "$OPTARG"
       exit 1
     ;;
     l)
+      # list excluded apps
       load_config
       echo -e "\e[96mListe des applications exclues dans le split tunnel:\e[0m"
       echo -e "\e[95m$(cat "$EXCLUDED_APPS_FILE")\e[0m"
       exit 1
     ;;
     e)
+      # open excluded apps file
       load_config
       echo -e "\e[91mOuverture du fichier de configuration pour modification...\e[0m"
       xdg-open "$EXCLUDED_APPS_FILE"
       exit 1
     ;;
     ?)
+      # the rest
       echo -e "\e[91mInvalid option: -${OPTARG}.\e[0m"
       exit 1
     ;;
