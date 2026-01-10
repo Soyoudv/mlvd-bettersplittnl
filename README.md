@@ -3,7 +3,7 @@
 *A better split tunneling for Mullvad VPN on Linux, using Mullvad CLI and Bash*
 <BR>
 
-**⚠️ you will need Mullvad installed ⚠️**<BR><BR>
+**⚠️ you will need Mullvad installed ⚠️**<br><br>
 
 did this because i dont wanna use the other methods that are very shitty
 
@@ -16,13 +16,16 @@ add the apps to the excluded-apps file (1 app, 1 line)
 *silenced mode*
 
 `-a` + `(app name)`
-*adds a given entry to the excluded-apps file*
+*adds a given entry to the excluded-apps file* <br>
+*(can be added without closing the program with another terminal instance)*
 
 `-r` + `(app name)`
-*removes a given entry to the excluded-apps file*
+*removes a given entry to the excluded-apps file* <br>
+*(can be removed without closing the program with another terminal instance)*
 
 `l`
 *show the excluded apps list*
 
 `e`
-*open the excluded apps file*
+*open the excluded apps file*<br>
+*(can be modified without closing the program with another terminal instance)*
