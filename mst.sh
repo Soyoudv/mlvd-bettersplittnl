@@ -18,7 +18,7 @@ refresh_excluded_apps(){
 
   #check if any excluded apps were found, else open config for editing
   if [ ${#EXCLUDED_APPS[@]} -eq 0 ]; then
-    echo -e "\e[91mNo excluded apps found in $EXCLUDED_APPS_FILE\e[0m" >&2
+    echo "No excluded apps found in $EXCLUDED_APPS_FILE" >&2
     xdg-open "$EXCLUDED_APPS_FILE"
     exit 1
   fi
@@ -30,7 +30,7 @@ load_excluded_apps(){
 }
 
 cleanup(){
-  echo -e "\e[96mCleaning up split tunnel pids...\e[0m"
+  echo -e "Cleaning up split tunnel pids..."
   mullvad split-tunnel clear > /dev/null 2>&1
 }
 
@@ -39,7 +39,7 @@ cleanup_exit(){
   cleanup
 }
 
-app_remove(){
+app_include(){
   if [[ $found -eq 0 ]]; then # if an app was removed from the excluded apps list
     app="${EXCLUDED_APPS_save[i]}"
       
@@ -59,8 +59,7 @@ app_remove(){
         fi
       done < <(pgrep -f "${EXCLUDED_APPS_save[i]}")
     done
-    echo -e "\e[95m$app\e[0m \e[91mincluded\e[0m\n ┗[\e[90m${pidtoadd[*]}\e[0m] " #avec une virgule entre les pids
-
+    echo -e "\e[4m\e[95m$app\e[0m \e[91mincluded\e[0m\n ╰(\e[90m${pidtoadd[*]}\e[0m)" #avec une virgule entre les pids
     # Remove PIDs from state file
     grep -v -F -f <(pgrep -f "${EXCLUDED_APPS_save[i]}") "$STATE_FILE" > "${STATE_FILE}.tmp" && mv "${STATE_FILE}.tmp" "$STATE_FILE"
   fi
@@ -81,7 +80,7 @@ blacklist(){
           found=1
         fi
       done
-      app_remove
+      app_include
       found=0
     done
     
@@ -109,7 +108,7 @@ blacklist(){
             echo "Failed to add $app [$delpid] to split tunnel"
           fi
         done
-        echo -e "\e[95m$app\e[0m \e[92mexcluded\e[0m\n ┗[\e[90m${pidtodelete[*]}\e[0m] "
+        echo -e "\e[4m\e[95m$app\e[0m \e[92mexcluded\e[0m\n ╰(\e[90m${pidtodelete[*]}\e[0m)"
       fi
     done
 
@@ -127,7 +126,7 @@ add_line(){
   else
     printf "\n" >> "$EXCLUDED_APPS_FILE"
     echo "$OPTARG" >> "$EXCLUDED_APPS_FILE"
-    echo -e "\e[96mAdded line to $EXCLUDED_APPS_FILE:\e[0m \e[95m$OPTARG\e[0m"
+    echo -e "\e[92mAdded line to $EXCLUDED_APPS_FILE:\e[0m \e[95m$OPTARG\e[0m"
 
     delete_empty_lines
   fi
@@ -136,7 +135,7 @@ add_line(){
 remove_line(){
   if grep -Fxq "$OPTARG" "$EXCLUDED_APPS_FILE"; then
     sed -i "\|^$OPTARG$|d" "$EXCLUDED_APPS_FILE"
-    echo -e "\e[96mRemoved line from $EXCLUDED_APPS_FILE:\e[0m \e[95m$OPTARG\e[0m"
+    echo -e "\e[92mRemoved line from $EXCLUDED_APPS_FILE:\e[0m \e[95m$OPTARG\e[0m"
 
     delete_empty_lines
   else
@@ -151,7 +150,7 @@ while getopts ": s a: r: l e" opt; do
   case ${opt} in
     s)
       # silent mode
-      echo -e "\e[91mExécution en mode silencieux...\e[0m"
+      echo -e "\e[92mExécution en mode silencieux...\e[0m"
       exec >/dev/null 2>&1
     ;;
     a)
@@ -169,14 +168,14 @@ while getopts ": s a: r: l e" opt; do
     l)
       # list excluded apps
       load_config
-      echo -e "\e[96mListe des applications exclues dans le split tunnel:\e[0m"
-      echo -e "\e[95m$(cat "$EXCLUDED_APPS_FILE")\e[0m"
+      echo -e "\e[1mListe des applications exclues dans le split tunnel:\e[0m"
+      echo -e "\e[4m\e[95m$(cat "$EXCLUDED_APPS_FILE")\e[0m"
       exit 1
     ;;
     e)
       # open excluded apps file
       load_config
-      echo -e "\e[91mOuverture du fichier de configuration pour modification...\e[0m"
+      echo -e "\e[92mOuverture du fichier de configuration pour modification...\e[0m"
       xdg-open "$EXCLUDED_APPS_FILE"
       exit 1
     ;;
@@ -193,8 +192,10 @@ done
 
 trap cleanup_exit EXIT # clean up on exit
 
+echo -e "\e[92mRunning mullvad split tunnel...\e[0m"
+
 load_excluded_apps # config already loaded once, just refresh excluded apps
-echo -e "\e[96mUsing excluded apps list from:\e[0m \e[95m$EXCLUDED_APPS_FILE\e[0m"
+echo -e "Using list from: \e[1m$EXCLUDED_APPS_FILE\e[0m"
 
 cleanup # clean up any existing split tunnel pids before starting
 
