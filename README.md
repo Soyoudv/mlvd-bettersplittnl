@@ -10,7 +10,24 @@ did this because i dont wanna use the other methods that are very shitty
 is the excluded-apps file is empty, it will open for you in code
 add the apps to the excluded-apps file (1 app, 1 line)
 
-### OPTIONS:
+## Installation:
+
+- Clone the repository:
+```sh
+git clone https://github.com/Soyoudv/mullvad-st.git && cd mullvad-st
+```
+
+- Install with the makefile:
+```sh
+make install
+```
+
+- Run with
+```sh
+mst
+```
+
+## Options:
 
 `-s`
 *silenced mode*
